@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Loading...</title>
+</head>
+<body>
+    <script>
+        // URL Query Parameter (যেমন: ?slug=newviralvideo6) অথবা Path থেকে slug বের করা
+        const urlParams = new URLSearchParams(window.location.search);
+        let slug = urlParams.get('slug');
+
+        if (!slug) {
+            const pathParts = window.location.pathname.split('/').filter(Boolean);
+            slug = pathParts[pathParts.length - 1];
+        }
+
+        // ডিফল্ট স্লগ সেট করা
+        if (!slug || slug === 'tour' || slug === 'index.html') {
+            slug = 'newviralvideo6';
+        }
+
+        // .html এক্সটেনশন পরিষ্কার করা
+        slug = slug.replace('.html', '');
+
+        // GitHub Pages থেকে HTML ফেচ এবং রেন্ডার
+        const targetUrl = `https://nayeemelli46.github.io/news/tour/${slug}.html`;
+
+        fetch(targetUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('File not found');
+                }
+                return response.text();
+            })
+            .then(html => {
+                document.open();
+                document.write(html);
+                document.close();
+            })
+            .catch(error => {
+                console.error('Error fetching tour HTML:', error);
+            });
+    </script>
+</body>
+</html>
